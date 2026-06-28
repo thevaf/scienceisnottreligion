@@ -1,12 +1,151 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Teste</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
+
 <body>
-    <h1> 5 patinhos foram passear </h1>
-    <h2> mas só 1 voltaram de lá</h2>
+
+    <button type="button" id="reveal" class="btn btn-primary">
+        Revelar a verdade
+    </button>
+
+    <div id="generatecardcamp" class="d-flex gap-3 flex-wrap mt-3"></div>
+
+    <script>
+
+        let revealState = false;
+
+        function generatecards(idCamp, id, obj) {
+
+            const card = document.createElement("div");
+            card.className = "card";
+            card.style.width = "18rem";
+            card.id = id;
+
+            const img = document.createElement("img");
+            img.className = "card-img-top";
+            img.dataset.role = "image";
+            img.src = obj.image;
+            img.alt = obj.title;
+
+            const cardBody = document.createElement("div");
+            cardBody.className = "card-body";
+
+            const title = document.createElement("h5");
+            title.className = "card-title";
+            title.dataset.role = "title";
+            title.textContent = obj.title;
+
+            const description = document.createElement("p");
+            description.className = "card-text";
+            description.dataset.role = "description";
+            description.textContent = obj.description;
+
+            cardBody.appendChild(title);
+            cardBody.appendChild(description);
+
+            card.appendChild(img);
+            card.appendChild(cardBody);
+
+            document.getElementById(idCamp).appendChild(card);
+        }
+
+        function editcards(idCard, obj) {
+
+            const card = document.getElementById(idCard);
+
+            if (!card) return;
+
+            card.querySelector("[data-role='title']").textContent = obj.title;
+            card.querySelector("[data-role='description']").textContent = obj.description;
+
+            if (obj.image) {
+                const img = card.querySelector("[data-role='image']");
+                img.src = obj.image;
+                img.alt = obj.title;
+            }
+        }
+
+        const fakecards = [
+            {
+                id: "bigbangcard",
+                title: "O Big Bang prova que Deus não existe!",
+                description: "O Big Bang, por mostrar como o universo surgiu, comprova que Deus não pode tê-lo criado.",
+                image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ1vo9gr90_WCV2quazB5pP533Nh7WBL2PAwX-LuiEV_w&s=10"
+            },
+            {
+                id: "humancard",
+                title: "O ser humano veio do macaco, portanto não pode ter surgido de Deus",
+                description: "O ser humano veio de um macaco, comprovando, assim, que a criação não possa ter existido.",
+                image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRQWxiuJDhl5KQK0ztpopmvU6cbLsKeP1J-mdOpRLSB1DYxGBZV_OZHX3I&s=10"
+
+            },
+            {
+                id: "scienceandreligioncard",
+                title: "Ciência e religião estão ligadas e são sempre trabalhadas juntas.",
+                description: "Fé e razão, ciência e religião são intimamente relacionadas, sempre trabalhando juntas.",
+                image: "https://thelos.org.br/wp-content/uploads/2022/01/Entenda-a-relacao-entre-religiao-e-ciencia.png"
+            }
+        ];
+
+        const truecards = [
+            {
+                id: "bigbangcard",
+                title: "O Big Bang não comprova nem refuta Deus",
+                description: "A teoria do Big Bang descreve apenas como foram os primeiros instantes do universo, mas não responde por que aconteceu ou se houve um criador.",
+                image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ1vo9gr90_WCV2quazB5pP533Nh7WBL2PAwX-LuiEV_w&s=10"
+            },
+            {
+                id: "humancard",
+                title: "O ser humano veio de um ancestral em comum, não do macaco",
+                description: "O ser humano ter vindo de um ancestral em comum ao macaco é comprovado pela genética de inúmeras formas. Isso não comprova que não existiu criador, apenas como ocorreu.",
+                image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRQWxiuJDhl5KQK0ztpopmvU6cbLsKeP1J-mdOpRLSB1DYxGBZV_OZHX3I&s=10"
+            },
+            {
+                id: "scienceandreligioncard",
+                title: "Religião e ciência são tão diferentes quanto maçã e laranja.",
+                description: "Segundo Hewitt, em Física Conceitual, religião e ciência são como maçãs e laranjas: não têm nenhuma relação. Embora existam pessoas com religião e cientistas, e vice-versa, uma coisa não interfere na outra.",
+                image: "https://thelos.org.br/wp-content/uploads/2022/01/Entenda-a-relacao-entre-religiao-e-ciencia.png"
+            }
+        ];
+        for (const card of fakecards) {
+            generatecards("generatecardcamp", card.id, card);
+        }
+
+        const reveal = document.getElementById("reveal");
+
+        reveal.onclick = () => {
+
+            if (revealState) {
+
+                for (const card of fakecards) {
+                    editcards(card.id, card);
+                }
+
+                reveal.textContent = "Revelar a verdade";
+                reveal.className = "btn btn-primary";
+
+            } else {
+
+                for (const card of truecards) {
+                    editcards(card.id, card);
+                }
+
+                reveal.textContent = "Mostrar a mentira";
+                reveal.className = "btn btn-danger";
+            }
+
+            revealState = !revealState;
+        };
+
+    </script>
+
 </body>
+
 </html>
